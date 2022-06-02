@@ -16,13 +16,13 @@ class GetCoinsUseCase @Inject constructor(
     //we want to emit multiple values over aa perıod time
     operator fun invoke(): Flow<Resource<List<Movie>>> = flow {
         try {
-            emit(Resource.Loading())
+            emit(Resource.Loading<List<Movie>>())
             val movieResults = repository.getPopularMovies().toMovie()
             emit(Resource.Success(movieResults))
         }catch (e : HttpException){
-            emit(Resource.Error(e.localizedMessage?:"Unexpected error occured"))
+            emit(Resource.Error<List<Movie>>(e.localizedMessage?:"Unexpected error occured"))
         } catch (e : IOException){
-            emit(Resource.Error("Couldnt reach server"))
+            emit(Resource.Error<List<Movie>>("Couldnt reach server"))
         }
     }
 }
