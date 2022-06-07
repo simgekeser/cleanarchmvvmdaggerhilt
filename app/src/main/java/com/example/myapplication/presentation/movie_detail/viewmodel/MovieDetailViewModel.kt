@@ -1,7 +1,5 @@
 package com.example.myapplication.presentation.movie_detail.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +8,7 @@ import com.example.myapplication.common.Resource
 import com.example.myapplication.domain.use_case.get_movie.GetCoinUseCase
 import com.example.myapplication.presentation.movie_detail.viewmodel.states.MovieDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -20,8 +19,8 @@ class MovieDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(MovieDetailState())
-    val state: State<MovieDetailState> = _state
+    private val _state = MutableStateFlow(MovieDetailState())
+    val state: MutableStateFlow<MovieDetailState> = _state
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_MOVIE_ID)?.let { movieId ->
